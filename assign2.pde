@@ -58,12 +58,12 @@ void setup() {
    restartHoveredImg = loadImage("img/restartHovered.png"); 
    startImg = loadImage("img/startNormal.png"); 
    startHoveredImg = loadImage("img/startHovered.png"); 
-  //soldier
+ //soldier
   sx = 0;
   sy = floor(random(160,480));
   sWeight = 100;
   xSpeed = 4;
-  //robot
+ //robot
   rWeight = 80;
   rx = floor(random(8))*80;
   ry = floor(random(160,480));
@@ -108,6 +108,7 @@ void setup() {
    strokeWeight(5);
    ellipse(width-50,50,120,120);
  //hug
+    image(hugImg,hugX,hugY);
    /*imageMode(CORNER);
    if (upPressed) {
       hugY -= hugSpeed;
@@ -121,7 +122,7 @@ void setup() {
     if (rightPressed) {
       hugX += hugSpeed;
     }*/
-   image(hugImg,hugX,hugY);
+   
 
  //life
    imageMode(CORNER);
