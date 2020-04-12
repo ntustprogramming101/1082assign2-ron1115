@@ -46,7 +46,7 @@ void setup() {
     
   size(640,480);
   bgImg = loadImage("img/bg.jpg");
-  hugImg = loadImage("img/ggroundhogIdle.png");
+  hugImg = loadImage("img/groundhogIdle.png");
   lifeImg = loadImage("img/life.png");
   robotImg = loadImage("img/robot.png");
   soliImg = loadImage("img/soil.png");
