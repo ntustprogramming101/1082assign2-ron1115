@@ -1,3 +1,11 @@
+/* @pjs preload=
+"img/bg.jpg,
+img/groundhog.png,
+img/life.png,
+img/robot.png,
+img/soil.png,
+img/soldier.png"; */
+
 PImage bgImg;
 PImage hugImg;
 PImage lifeImg;
@@ -28,10 +36,10 @@ int hugSpeed = 80,hugSpeedy = 80;
 int hugWeight =80;
 //cabbge
 int cX=floor(random(8))*80;
-int cY=floor(random(160,480));
+int cY=floor(random(2,6))*80;
 int cWeight80;
 //life
-int lx1=10,lx2=80,lx3=-50,ly1,ly2,ly3,ld=200;
+int lifepoint =2;
 //game
 final int game_start = 1,game_run = 2,game_hurt = 3,game_lose = 4;
 int gameState;
@@ -46,7 +54,7 @@ void setup() {
     
   size(640,480);
   bgImg = loadImage("img/bg.jpg");
-  hugImg = loadImage("img/groundhogIdle.png");
+  hugImg = loadImage("img/groundhog.png");
   lifeImg = loadImage("img/life.png");
   robotImg = loadImage("img/robot.png");
   soliImg = loadImage("img/soil.png");
@@ -58,16 +66,16 @@ void setup() {
    restartHoveredImg = loadImage("img/restartHovered.png"); 
    startImg = loadImage("img/startNormal.png"); 
    startHoveredImg = loadImage("img/startHovered.png"); 
- //soldier
+//soldier
   sx = 0;
   sy = floor(random(160,480));
   sWeight = 100;
   xSpeed = 4;
- //robot
+//robot
   rWeight = 80;
   rx = floor(random(8))*80;
   ry = floor(random(160,480));
-  //lazer
+//lazer
   gunx = rx+25;
   lx = rx+20;
   lxSpeed =1;
@@ -75,19 +83,19 @@ void setup() {
   
 }
  void draw(){
-    // Switch Game State
-    // Game Start
+ // Switch Game State
+ // Game Start
   switch(gameState){
     case game_start:
       image(titleImg, 0, 0);
-      image(startImg, 248, 360,144,60);
+      image(startHoveredImg, 248, 360,144,60);
       if(mouseX > 248 && mouseX < 248+144
       && mouseY > 360 && mouseY < 360+60){       
         if(mousePressed){
           gameState = game_run;
         }
       }else{
-        image(startHoveredImg, 248, 360);
+        image(startImg, 248, 360);
       }
       break;
  // Game Run
@@ -108,7 +116,6 @@ void setup() {
    strokeWeight(5);
    ellipse(width-50,50,120,120);
  //hug
-    image(hugImg,hugX,hugY);
    /*imageMode(CORNER);
    if (upPressed) {
       hugY -= hugSpeed;
@@ -122,14 +129,14 @@ void setup() {
     if (rightPressed) {
       hugX += hugSpeed;
     }*/
-   
+   image(hugImg,hugX,hugY);
 
  //life
+ 
    imageMode(CORNER);
-   image(lifeImg,lx1,y/24,50,50);
-   image(lifeImg,lx2,y/24,50,50);
-   image(lifeImg,lx3,y/24,50,50);
-   
+   for(int lx1=0; lx1 < lifepoint ;lx1++){
+   image(lifeImg,70*lx1,y/24,50,50);
+   }
  
  
  //soldier
@@ -137,7 +144,6 @@ void setup() {
   if(sx>width){sx = 0-sWeight;
                sy =floor(random(160,480));}
     
-
   if(sy<240){sy = 160;}
   else if (sy<320){sy = 240;}
   else if (sy<400){sy = 320;}
@@ -145,28 +151,27 @@ void setup() {
 
   image(soldierImg,sx,sy);
 //crsah----------
- if (hugX<sx+sWeight && hugX+hugWeight>sx && hugY+hugWeight>sy && sy+sWeight>hugY){
+if (hugX<sx+sWeight && hugX+hugWeight>sx && hugY+hugWeight>sy && sy+sWeight>hugY){
    hugX = 240;
    hugY =80; 
-   lx2=-ld;
+   lifepoint--;
    }
-   if(hugX<sx+sWeight && hugX+hugWeight>sx && hugY+hugWeight>sy
-   && sy+sWeight>hugY && lx2==-ld){
-     lx1=-ld;
-     
-   }
+if(lifepoint==0){
+  gameState=game_lose;
+}       
+   
 //life++
 if (hugX<cX+sWeight && hugX+hugWeight>cX && hugY+hugWeight>cY && cY+sWeight>hugY){ 
-   lx2=80;
-    cX=-ld;
+   lifepoint++;
+    cX=-100;
    }
    
 
-  //cabbge
-  if(cY<240){cY = 160;}
+//cabbge
+  /*if(cY<240){cY = 160;}
   else if (cY<320){cY = 240;}
   else if (cY<400){cY = 320;}
-  else if (cY<480){cY = 400;}
+  else if (cY<480){cY = 400;}*/
   image(cabbgeImg,cX,cY);
   
 //BORDER
@@ -174,17 +179,34 @@ if (hugX<cX+sWeight && hugX+hugWeight>cX && hugY+hugWeight>cY && cY+sWeight>hugY
   if(hugX<0){hugX = 0;}
   if(hugY<y/3){hugY=y/3;}
   if(hugY>=height){hugY = height-hugWeight;}
-  
-break;
+ 
+ 
+ break;
    
-
-    
-
-    // Game Lose
-     case game_lose:
+// Game Lose
+    case game_lose:
     image (gameoverImg,0,0);
-      }  
-    }
+     image(restartHoveredImg, 248, 360,144,60);
+      hugX =240; 
+      hugY=80;
+      if(mouseX > 248 && mouseX < 248+144
+      && mouseY > 360 && mouseY < 360+60){       
+        if(mousePressed){
+          lifepoint = 2;
+           cX=floor(random(8))*80;
+           cY=floor(random(2,6))*80;
+          image(cabbgeImg,cX,cY);
+          
+          gameState = game_run;
+        }
+      }else{
+        image(restartImg, 248, 360);
+      }
+      break;
+    
+ }       
+ }
+    
    
 void keyPressed() {
   if (key == CODED) { // detect special keys 
@@ -248,3 +270,9 @@ void keyReleased() {
   }
 
   }*/
+     
+ 
+ 
+
+ 
+ 
