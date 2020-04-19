@@ -54,7 +54,7 @@ void setup() {
     
   size(640,480);
   bgImg = loadImage("img/bg.jpg");
-  hugImg = loadImage("img/groundhog.png");
+  hugImg = loadImage("img/groundhogdle.png");
   lifeImg = loadImage("img/life.png");
   robotImg = loadImage("img/robot.png");
   soliImg = loadImage("img/soil.png");
@@ -69,7 +69,7 @@ void setup() {
 //soldier
   sx = 0;
   sy = floor(random(160,480));
-  sWeight = 100;
+  sWeight = 80;
   xSpeed = 4;
 //robot
   rWeight = 80;
@@ -270,9 +270,4 @@ void keyReleased() {
   }
 
   }*/
-     
- 
- 
-
- 
- 
+    
