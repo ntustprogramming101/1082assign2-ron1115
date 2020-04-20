@@ -207,7 +207,7 @@ void keyPressed() {
       
           
       case UP:
-        hugY -= hugSpeed;
+       
         break;
       case DOWN:
         hugY  += hugSpeed;
