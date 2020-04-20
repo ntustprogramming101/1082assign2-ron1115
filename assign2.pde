@@ -9,7 +9,7 @@ img/soldier.png"; */
 PImage bgImg;
 PImage hugImg;
 PImage lifeImg;
-PImage robotImg;
+
 PImage soliImg;
 PImage soldierImg;
 PImage cabbgeImg;
@@ -56,7 +56,7 @@ void setup() {
   bgImg = loadImage("img/bg.jpg");
   hugImg = loadImage("img/groundhogIdle.png");
   lifeImg = loadImage("img/life.png");
-  robotImg = loadImage("img/robot.png");
+ 
   soliImg = loadImage("img/soil.png");
   soldierImg = loadImage("img/soldier.png");
   cabbgeImg = loadImage("img/cabbage.png");
