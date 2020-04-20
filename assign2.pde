@@ -1,3 +1,10 @@
+/* @pjs preload=
+"img/bg.jpg,
+img/groundhog.png,
+img/life.png,
+img/robot.png,
+img/soil.png,
+img/soldier.png"; */
 
 PImage bgImg;
 PImage hugImg;
@@ -122,7 +129,7 @@ void setup() {
     if (rightPressed) {
       hugX += hugSpeed;
     }*/
-   image(hugImg,hugX,hugY);
+ 
 
  //life
  
@@ -144,20 +151,21 @@ void setup() {
 
   image(soldierImg,sx,sy);
 //crsah----------
-if (hugX<sx+sWeight && hugX+hugWeight>sx && hugY+hugWeight>sy && sy+sWeight>hugY){
+  if (hugX<sx+sWeight && hugX+hugWeight>sx && hugY+hugWeight>sy && sy+sWeight>hugY){
    hugX = 240;
    hugY =80; 
    lifepoint--;
    }
-if(lifepoint==0){
+  if(lifepoint==0){
   gameState=game_lose;
 }       
    
 //life++
-if (hugX<cX+sWeight && hugX+hugWeight>cX && hugY+hugWeight>cY && cY+sWeight>hugY){ 
-   lifepoint++;
-    cX=-100;
-   }
+  if (hugX<cX+sWeight && hugX+hugWeight>cX && hugY+hugWeight>cY && cY+sWeight>hugY){ 
+     lifepoint++;
+      cX=-100;
+      cY=-100;
+     }
    
 
 //cabbge
@@ -168,11 +176,12 @@ if (hugX<cX+sWeight && hugX+hugWeight>cX && hugY+hugWeight>cY && cY+sWeight>hugY
   image(cabbgeImg,cX,cY);
   
 //BORDER
+ 
   if(hugX>width-hugWeight){hugX = width-hugWeight;}
   if(hugX<0){hugX = 0;}
   if(hugY<y/3){hugY=y/3;}
   if(hugY>=height){hugY = height-hugWeight;}
- 
+ image(hugImg,hugX,hugY);
  
  break;
    
@@ -207,7 +216,7 @@ void keyPressed() {
       
           
       case UP:
-       
+        
         break;
       case DOWN:
         hugY  += hugSpeed;
@@ -263,4 +272,9 @@ void keyReleased() {
   }
 
   }*/
-    
+     
+ 
+ 
+
+ 
+ 
