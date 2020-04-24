@@ -9,7 +9,7 @@ img/soldier.png"; */
 PImage bgImg;
 PImage hugImg;
 PImage lifeImg;
-
+PImage robotImg;
 PImage soliImg;
 PImage soldierImg;
 PImage cabbgeImg;
@@ -56,7 +56,6 @@ void setup() {
   bgImg = loadImage("img/bg.jpg");
   hugImg = loadImage("img/groundhogIdle.png");
   lifeImg = loadImage("img/life.png");
- 
   soliImg = loadImage("img/soil.png");
   soldierImg = loadImage("img/soldier.png");
   cabbgeImg = loadImage("img/cabbage.png");
@@ -142,7 +141,7 @@ void setup() {
  //soldier
    sx = sx + xSpeed;
   if(sx>width){sx = 0-sWeight;
-               sy =floor(random(160,480));}
+               }
     
   if(sy<240){sy = 160;}
   else if (sy<320){sy = 240;}
