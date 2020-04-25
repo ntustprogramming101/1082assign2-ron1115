@@ -7,7 +7,7 @@ img/soil.png,
 img/soldier.png"; */
 
 PImage bgImg;
-PImage hugImg;
+PImage groundhogIdleImg;
 PImage lifeImg;
 PImage robotImg;
 PImage soliImg;
@@ -16,7 +16,9 @@ PImage cabbgeImg;
 PImage titleImg;
 PImage gameoverImg;
 PImage restartImg;
-PImage restartHoveredImg;
+PImage restartHoveredImg,  groundhogDownImg,
+  groundhogLeftImg,
+  groundhogRightImg;
 PImage startImg;
 PImage startHoveredImg;
 int x=320,y=240;//center
@@ -31,9 +33,13 @@ int rWeight;
 //lazer
 float lx,lxSpeed,gunx,ly;
 //hug
-float hugX =240 ,hugY=80;
+float groundhogX=240 ,groundhogY =80;
 int hugSpeed = 80,hugSpeedy = 80;
 int hugWeight =80;
+float groundhogLestX, groundhogLestY;
+int groundhogMoveTime = 250;
+int actionFrame; //groundhog's moving frame 
+float lastTime; //time when the groundhog finished moving
 //cabbge
 int cX=floor(random(8))*80;
 int cY=floor(random(2,6))*80;
@@ -43,7 +49,7 @@ int lifepoint =2;
 //game
 final int game_start = 1,game_run = 2,game_hurt = 3,game_lose = 4;
 int gameState;
-boolean upPressed = false;
+
 boolean downPressed = false;
 boolean leftPressed = false;
 boolean rightPressed = false;
@@ -54,7 +60,10 @@ void setup() {
     
   size(640,480);
   bgImg = loadImage("img/bg.jpg");
-  hugImg = loadImage("img/groundhogIdle.png");
+  groundhogIdleImg = loadImage("img/groundhogIdle.png");
+  groundhogDownImg = loadImage("img/groundhogDown.png");
+  groundhogLeftImg = loadImage("img/groundhogLeft.png");
+  groundhogRightImg = loadImage("img/groundhogRight.png");
   lifeImg = loadImage("img/life.png");
   soliImg = loadImage("img/soil.png");
   soldierImg = loadImage("img/soldier.png");
@@ -115,19 +124,47 @@ void setup() {
    strokeWeight(5);
    ellipse(width-50,50,120,120);
  //hug
-   /*imageMode(CORNER);
-   if (upPressed) {
-      hugY -= hugSpeed;
+    //groundhog
+    //print(downPressed+"\n");
+    //When the button is not pressed, draw the groundhogIdle image
+    if (downPressed == false && leftPressed == false && rightPressed == false) {
+      image(groundhogIdleImg, groundhogX, groundhogY, hugWeight, hugWeight);
     }
+    //draw the groundhogDown image between 1-14 frames
     if (downPressed) {
-       hugY  += hugSpeed;
+      actionFrame++;
+      if (actionFrame > 0 && actionFrame < 15) {
+        groundhogY += hugWeight / 15.0;
+        image(groundhogDownImg, groundhogX, groundhogY, hugWeight, hugWeight);
+      } else {
+        groundhogY = groundhogLestY + hugWeight;
+        downPressed = false;
+        
+      }
     }
+    
+    //draw the groundhogLeft image between 1-14 frames
     if (leftPressed) {
-      hugX -= hugSpeed;
+      actionFrame++;
+      if (actionFrame > 0 && actionFrame < 15) {
+        groundhogX -= hugWeight / 15.0;
+        image(groundhogLeftImg, groundhogX, groundhogY, hugWeight, hugWeight);
+      } else {
+        groundhogX = groundhogLestX - hugWeight;
+        leftPressed = false;
+      }
     }
+    //draw the groundhogRight image between 1-14 frames
     if (rightPressed) {
-      hugX += hugSpeed;
-    }*/
+      actionFrame++;
+      if (actionFrame > 0 && actionFrame < 15) {
+        groundhogX += hugWeight / 15.0;
+        image(groundhogRightImg, groundhogX, groundhogY, hugWeight, hugWeight);
+      } else {
+        groundhogX = groundhogLestX + hugWeight;
+        rightPressed = false;
+      }
+    }
  
 
  //life
@@ -150,17 +187,29 @@ void setup() {
 
   image(soldierImg,sx,sy);
 //crsah----------
-  if (hugX<sx+sWeight && hugX+hugWeight>sx && hugY+hugWeight>sy && sy+sWeight>hugY){
-   hugX = 240;
-   hugY =80; 
+  if (groundhogX<sx+sWeight && groundhogX+hugWeight>sx && groundhogY+hugWeight>sy &&
+  sy+sWeight>groundhogY){
+   groundhogX = 240;
+   groundhogY =80; 
    lifepoint--;
-   }
+   if (lifepoint > 0 && lifepoint <= 3) {
+          groundhogX = 320;
+          groundhogY = 80;
+        }
+        //When returning to its original position, the groundhog doesn't start moving directly
+        downPressed = false; 
+        leftPressed = false;
+        rightPressed = false;
+      }
+    
+   
   if(lifepoint==0){
   gameState=game_lose;
 }       
    
 //life++
-  if (hugX<cX+sWeight && hugX+hugWeight>cX && hugY+hugWeight>cY && cY+sWeight>hugY){ 
+  if (groundhogX<cX+sWeight && groundhogX+hugWeight>cX && groundhogY+hugWeight>cY &&
+  cY+sWeight>groundhogY){ 
      lifepoint++;
       cX=-100;
       cY=-100;
@@ -176,11 +225,11 @@ void setup() {
   
 //BORDER
  
-  if(hugX>width-hugWeight){hugX = width-hugWeight;}
-  if(hugX<0){hugX = 0;}
-  if(hugY<y/3){hugY=y/3;}
-  if(hugY>=height){hugY = height-hugWeight;}
- image(hugImg,hugX,hugY);
+  if(groundhogX>width-hugWeight){groundhogX = width-hugWeight;}
+  if(groundhogX<0){groundhogX = 0;}
+  if(groundhogY<y/3){groundhogY=y/3;}
+  if(groundhogY>=height-hugWeight){groundhogY = height-hugWeight;}
+ 
  
  break;
    
@@ -188,8 +237,8 @@ void setup() {
     case game_lose:
     image (gameoverImg,0,0);
      image(restartHoveredImg, 248, 360,144,60);
-      hugX =240; 
-      hugY=80;
+      groundhogX =240; 
+      groundhogY=80;
       if(mouseX > 248 && mouseX < 248+144
       && mouseY > 360 && mouseY < 360+60){       
         if(mousePressed){
@@ -207,9 +256,40 @@ void setup() {
     
  }       
  }
-    
-   
+  
 void keyPressed() {
+  float newTime = millis(); //time when the groundhog started moving
+  if (key == CODED) {
+    switch (keyCode) {
+    case DOWN:
+      if (newTime - lastTime > 250) {
+        downPressed = true;
+        actionFrame = 0;
+        groundhogLestY = groundhogY;
+        lastTime = newTime;
+      }
+      break;
+    case LEFT:
+      if (newTime - lastTime > 250) {
+        leftPressed = true;
+        actionFrame = 0;
+        groundhogLestX = groundhogX;
+        lastTime = newTime;
+      }
+      break;
+    case RIGHT:
+      if (newTime - lastTime > 250) {
+        rightPressed = true;
+        actionFrame = 0;
+        groundhogLestX = groundhogX;
+        lastTime = newTime;
+      }
+      break;
+    }
+  }
+}
+   
+/*void keyPressed() {
   if (key == CODED) { // detect special keys 
     switch (keyCode) {
       
@@ -231,7 +311,7 @@ void keyPressed() {
 }     
 
 
-/*void  keyPressed() {
+void  keyPressed() {
   if (key == CODED) { // detect special keys 
     switch (keyCode) {
       
