@@ -1,15 +1,7 @@
-/* @pjs preload=
-"img/bg.jpg,
-img/groundhog.png,
-img/life.png,
-img/robot.png,
-img/soil.png,
-img/soldier.png"; */
 
 PImage bgImg;
 PImage groundhogIdleImg;
 PImage lifeImg;
-PImage robotImg;
 PImage soliImg;
 PImage soldierImg;
 PImage cabbgeImg;
