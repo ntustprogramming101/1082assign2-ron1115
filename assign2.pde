@@ -25,7 +25,7 @@ int rWeight;
 //lazer
 float lx,lxSpeed,gunx,ly;
 //hug
-float groundhogX=240 ,groundhogY =80;
+float groundhogX=320 ,groundhogY =80;
 int hugSpeed = 80,hugSpeedy = 80;
 int hugWeight =80;
 float groundhogLestX, groundhogLestY;
